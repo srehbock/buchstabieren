@@ -63,7 +63,7 @@ Eine mobile-first, statische Web-App für Eltern und Grundschulkinder zum Üben 
 
 ### Nutzung
 
-1. Öffne `index.html` in einem modernen Webbrowser
+1. Öffne `public/index.html` in einem modernen Webbrowser
 2. Die App läuft vollständig offline
 3. Keine Installation oder Konfiguration nötig
 
@@ -91,10 +91,13 @@ Eine mobile-first, statische Web-App für Eltern und Grundschulkinder zum Üben 
 
 ```
 buchtabieren/
-├── index.html      # Haupt-HTML-Datei
-├── styles.css      # Mobile-first Styles
-├── app.js          # Vollständige App-Logik
-└── README.md        # Diese Datei
+├── public/              # Öffentliche App-Dateien
+│   ├── index.html      # Haupt-HTML-Datei
+│   ├── styles.css      # Mobile-first Styles
+│   └── app.js          # Vollständige App-Logik
+└── docs/               # Dokumentation
+    ├── README.md       # Diese Datei
+    └── ARCHITECTURE.md # Architektur-Dokumentation
 ```
 
 ## 🎮 Bedienung
