@@ -158,29 +158,44 @@ const app = {
     startSession() {
         this.createSession();
         this.currentWordIndex = 0;
-        this.showWord();
         this.hideAllScreens();
         document.getElementById('wordScreen').classList.add('active');
-        this.checkFirstTimeHint();
+        this.showWord();
+        // Hinweis nach dem Anzeigen des Wortes prüfen
+        setTimeout(() => {
+            this.checkFirstTimeHint();
+        }, 100);
     },
     
     checkFirstTimeHint() {
-        const hintShown = localStorage.getItem('buchtabieren_hint_shown');
         const hintElement = document.getElementById('firstTimeHint');
         
-        if (!hintShown && hintElement) {
-            // Hinweis nach kurzer Verzögerung anzeigen, damit die Karte sichtbar ist
-            setTimeout(() => {
-                hintElement.classList.add('show');
-            }, 500);
+        if (!hintElement) {
+            return;
         }
+        
+        // Hinweis immer beim ersten Wort anzeigen
+        setTimeout(() => {
+            const element = document.getElementById('firstTimeHint');
+            if (element) {
+                element.classList.remove('hidden');
+                element.classList.add('show');
+                element.style.display = 'block';
+                element.style.opacity = '1';
+                element.style.pointerEvents = 'auto';
+                element.style.visibility = 'visible';
+            }
+        }, 800);
     },
     
     hideFirstTimeHint() {
         const hintElement = document.getElementById('firstTimeHint');
         if (hintElement) {
+            hintElement.classList.add('hidden');
             hintElement.classList.remove('show');
-            localStorage.setItem('buchtabieren_hint_shown', 'true');
+            hintElement.style.display = 'none';
+            hintElement.style.opacity = '0';
+            hintElement.style.pointerEvents = 'none';
         }
     },
     
@@ -240,9 +255,15 @@ const app = {
         const card = document.getElementById('wordCard');
         card.classList.remove('flipped');
         
-        // Hinweis nur anzeigen, wenn es das erste Wort der ersten Übungsrunde ist
+        // Hinweis nur anzeigen, wenn es das erste Wort ist
         if (this.currentWordIndex === 0) {
-            this.checkFirstTimeHint();
+            // Kurze Verzögerung, damit die Karte vollständig gerendert ist
+            setTimeout(() => {
+                this.checkFirstTimeHint();
+            }, 800);
+        } else {
+            // Bei anderen Wörtern den Hinweis sicher ausblenden
+            this.hideFirstTimeHint();
         }
         
         // Prüfen ob Wort bereits markiert ist: Entweder in repeatWords oder in sessionRepeatWords (Übungsrunde)
@@ -282,9 +303,9 @@ const app = {
         const card = document.getElementById('wordCard');
         card.classList.toggle('flipped');
         
-        // Hinweis beim ersten Tippen ausblenden
-        const hintShown = localStorage.getItem('buchtabieren_hint_shown');
-        if (!hintShown) {
+        // Hinweis beim Tippen ausblenden (nur wenn sichtbar)
+        const hintElement = document.getElementById('firstTimeHint');
+        if (hintElement && hintElement.classList.contains('show')) {
             this.hideFirstTimeHint();
         }
     },
