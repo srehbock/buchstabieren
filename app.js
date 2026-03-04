@@ -33,7 +33,7 @@ const DISTRACTION_QUESTIONS = [
 ];
 
 // Button-Texte für Wiederhol-Funktion
-const REPEAT_BUTTON_TEXT = 'HBeim nächsten Mal wiederholen';
+const REPEAT_BUTTON_TEXT = 'Beim nächsten Mal wiederholen';
 const REPEAT_BUTTON_TEXT_MARKED = 'Beim nächsten Mal wiederholen ✅';
 
 // App State
@@ -44,6 +44,7 @@ const app = {
     repeatWords: new Set(),
     sessionWords: [],
     sessionRepeatWords: new Set(), // Wiederhol-Wörter in der aktuellen Übungsrunde
+    cardFlipped: false, // Track ob Karte bereits geflippt wurde
     
     init() {
         this.loadSettings();
@@ -244,6 +245,9 @@ const app = {
             card.classList.remove('flipped');
         }
         
+        // Flipped-Status zurücksetzen beim Wortwechsel
+        this.cardFlipped = false;
+        
         // Infobox nur beim ersten Wort anzeigen
         this.updateCardHint();
         
@@ -300,6 +304,15 @@ const app = {
         const card = document.getElementById('wordCard');
         if (card) {
             card.classList.toggle('flipped');
+            
+            // Tooltip beim ersten Flippen ausblenden
+            if (!this.cardFlipped && this.currentWordIndex === 0) {
+                const cardHint = document.querySelector('.card-hint');
+                if (cardHint) {
+                    cardHint.classList.remove('show');
+                }
+                this.cardFlipped = true;
+            }
         }
     },
     
