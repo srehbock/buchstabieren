@@ -161,6 +161,27 @@ const app = {
         this.showWord();
         this.hideAllScreens();
         document.getElementById('wordScreen').classList.add('active');
+        this.checkFirstTimeHint();
+    },
+    
+    checkFirstTimeHint() {
+        const hintShown = localStorage.getItem('buchtabieren_hint_shown');
+        const hintElement = document.getElementById('firstTimeHint');
+        
+        if (!hintShown && hintElement) {
+            // Hinweis nach kurzer Verzögerung anzeigen, damit die Karte sichtbar ist
+            setTimeout(() => {
+                hintElement.classList.add('show');
+            }, 500);
+        }
+    },
+    
+    hideFirstTimeHint() {
+        const hintElement = document.getElementById('firstTimeHint');
+        if (hintElement) {
+            hintElement.classList.remove('show');
+            localStorage.setItem('buchtabieren_hint_shown', 'true');
+        }
     },
     
     createSession() {
@@ -219,6 +240,11 @@ const app = {
         const card = document.getElementById('wordCard');
         card.classList.remove('flipped');
         
+        // Hinweis nur anzeigen, wenn es das erste Wort der ersten Übungsrunde ist
+        if (this.currentWordIndex === 0) {
+            this.checkFirstTimeHint();
+        }
+        
         // Prüfen ob Wort bereits markiert ist: Entweder in repeatWords oder in sessionRepeatWords (Übungsrunde)
         const isMarked = this.repeatWords.has(word) || this.sessionRepeatWords.has(word);
         
@@ -255,6 +281,12 @@ const app = {
     flipCard() {
         const card = document.getElementById('wordCard');
         card.classList.toggle('flipped');
+        
+        // Hinweis beim ersten Tippen ausblenden
+        const hintShown = localStorage.getItem('buchtabieren_hint_shown');
+        if (!hintShown) {
+            this.hideFirstTimeHint();
+        }
     },
     
     toggleRepeat() {
