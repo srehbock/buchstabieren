@@ -101,12 +101,18 @@ const state = JSON.parse(decoded);
 - Pro Klassenstufe eine feste, interne Wortliste
 - Deutsche Wörter, altersgerecht
 - Keine eigenen Wortlisten, keine Uploads
+- Wortlisten sind in separater Datei `wordlists.js` organisiert für bessere Wartbarkeit
 
 #### Umfang
-- **Klasse 1**: 200 Wörter
-- **Klasse 2**: 200 Wörter
-- **Klasse 3**: 300 Wörter
-- **Klasse 4**: 300 Wörter
+- **Klasse 1**: 189 Wörter
+- **Klasse 2**: 292 Wörter
+- **Klasse 3**: 301 Wörter
+- **Klasse 4**: 301 Wörter
+
+#### Datenquelle
+- Wortlisten werden aus CSV-Dateien (`wortschatz/grundwortschatz_klassen_1-4.csv`) generiert
+- Kombinierte Wörter (z.B. "BrückeProjekt") werden automatisch aufgeteilt
+- Aktualisierung der Wortlisten erfolgt durch Regenerierung von `wordlists.js` aus CSV-Daten
 
 #### Wortarten
 - **Nomen (Substantive)**: Großgeschrieben
@@ -429,11 +435,18 @@ Für jedes Wort gibt es eine Markierung, die Eltern setzen/entfernen können.
 ### Statische SPA
 
 #### Struktur
-- Eine HTML-Datei (`public/index.html`)
-- Eine CSS-Datei (`public/styles.css`)
-- Eine JavaScript-Datei (`public/app.js`)
+- Eine HTML-Datei (`index.html`)
+- Eine CSS-Datei (`styles.css`)
+- Zwei JavaScript-Dateien:
+  - `wordlists.js`: Enthält die Wortlisten-Konstante `WORD_LISTS` für alle Klassenstufen
+  - `app.js`: Hauptanwendungslogik
 - Dokumentation im `docs/` Ordner
 - Keine externen Abhängigkeiten
+
+#### Datei-Ladereihenfolge
+Die JavaScript-Dateien müssen in folgender Reihenfolge geladen werden:
+1. `wordlists.js` - Definiert die globale `WORD_LISTS` Konstante
+2. `app.js` - Verwendet `WORD_LISTS` für die Session-Erstellung
 
 #### Keine Server-Abhängigkeiten
 - Keine externen Datenquellen
@@ -585,10 +598,14 @@ const app = {
 
 ### Modul-Struktur
 
+#### Datei-Organisation
+- **`wordlists.js`**: Enthält die `WORD_LISTS` Konstante mit allen Wortlisten für Klassen 1-4
+- **`app.js`**: Enthält die Hauptanwendungslogik
+
 #### Konstanten
-- `WORD_LISTS`: Wortlisten pro Klasse
-- `DISTRACTION_QUESTIONS`: Ablenkungsfragen
-- `REPEAT_BUTTON_TEXT`: Button-Texte
+- `WORD_LISTS` (in `wordlists.js`): Wortlisten pro Klasse, als globale Konstante verfügbar
+- `DISTRACTION_QUESTIONS` (in `app.js`): Ablenkungsfragen
+- `REPEAT_BUTTON_TEXT` (in `app.js`): Button-Texte
 
 #### App-Objekt
 - Zentrale State-Verwaltung

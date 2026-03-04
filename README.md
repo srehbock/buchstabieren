@@ -13,10 +13,10 @@ Eine mobile-first, statische Web-App für Eltern und Grundschulkinder zum Üben 
 ### Hauptfunktionen
 
 - **Klassenstufen**: Unterstützung für Klasse 1-4 mit altersgerechten Wortlisten
-  - Klasse 1: 200 Wörter (Nomen, Verben, Adjektive)
-  - Klasse 2: 200 Wörter (Nomen, Verben, Adjektive)
-  - Klasse 3: 300 Wörter (Nomen, Verben, Adjektive)
-  - Klasse 4: 300 Wörter (Nomen, Verben, Adjektive)
+  - Klasse 1: 189 Wörter (Nomen, Verben, Adjektive)
+  - Klasse 2: 292 Wörter (Nomen, Verben, Adjektive)
+  - Klasse 3: 301 Wörter (Nomen, Verben, Adjektive)
+  - Klasse 4: 301 Wörter (Nomen, Verben, Adjektive)
 
 - **Session-System**: 
   - Konfigurierbare Sessiongröße (4-10 Wörter, Standard: 5)
@@ -63,7 +63,7 @@ Eine mobile-first, statische Web-App für Eltern und Grundschulkinder zum Üben 
 
 ### Nutzung
 
-1. Öffne `public/index.html` in einem modernen Webbrowser
+1. Öffne `index.html` in einem modernen Webbrowser
 2. Die App läuft vollständig offline
 3. Keine Installation oder Konfiguration nötig
 
@@ -90,14 +90,15 @@ Eine mobile-first, statische Web-App für Eltern und Grundschulkinder zum Üben 
 ## 📁 Projektstruktur
 
 ```
-buchtabieren/
-├── public/              # Öffentliche App-Dateien
-│   ├── index.html      # Haupt-HTML-Datei
-│   ├── styles.css      # Mobile-first Styles
-│   └── app.js          # Vollständige App-Logik
+buchstabieren/
+├── index.html          # Haupt-HTML-Datei
+├── styles.css          # Mobile-first Styles
+├── app.js              # Hauptanwendungslogik
+├── wordlists.js        # Wortlisten für alle Klassenstufen
+├── wortschatz/         # CSV-Dateien mit Wortschatz-Daten
+│   └── grundwortschatz_klassen_1-4.csv
 └── docs/               # Dokumentation
-    ├── README.md       # Diese Datei
-    └── ARCHITECTURE.md # Architektur-Dokumentation
+    └── architecture.md  # Architektur-Dokumentation
 ```
 
 ## 🎮 Bedienung
