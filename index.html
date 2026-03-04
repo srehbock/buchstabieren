@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Buchstabier-Trainer für Grundschulkinder">
+    <title>Buchstabier-Trainer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Startscreen / Anleitung -->
+    <div id="startScreen" class="screen active">
+        <div class="container">
+            <h1>Buchstabier-Trainer</h1>
+            <div class="instructions">
+                <h2>So funktioniert's:</h2>
+                <ol>
+                    <li>Eltern zeigen dem Kind das Wort</li>
+                    <li>Auf das Wort tippen um es zu verdecken</li>
+                    <li>Kind liest/erkennt und buchstabiert laut</li>
+                    <li>Eltern nutzen die Info-Box als Leitfaden</li>
+                    <li>Eltern bewerten manuell richtig/falsch</li>
+                </ol>
+                <button class="btn btn-primary" onclick="app.startSession()">Los geht's!</button>
+                <button class="btn btn-secondary" onclick="app.showSettings()">Einstellungen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Einstellungen -->
+    <div id="settingsScreen" class="screen">
+        <div class="container">
+            <h1>Einstellungen</h1>
+            <div class="settings-group">
+                <label>
+                    <span>Klassenstufe:</span>
+                    <select id="gradeSelect">
+                        <option value="1">Klasse 1</option>
+                        <option value="2">Klasse 2</option>
+                        <option value="3">Klasse 3</option>
+                        <option value="4">Klasse 4</option>
+                    </select>
+                </label>
+            </div>
+            <div class="settings-group">
+                <label>
+                    <span>Sessiongröße: <span id="sessionSizeValue">5</span> Wörter</span>
+                    <input type="range" id="sessionSizeSelect" min="4" max="10" value="5" step="1">
+                </label>
+            </div>
+            <div class="settings-group">
+                <button class="btn btn-primary" onclick="app.saveSettings()">Speichern</button>
+                <button class="btn btn-secondary" onclick="app.showStartScreen()">Zurück</button>
+            </div>
+            <div class="settings-group">
+                <button class="btn btn-secondary" onclick="app.shareLink()">Auf anderem Gerät weitermachen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hauptscreen: Wortkarte -->
+    <div id="wordScreen" class="screen">
+        <div class="container">
+            <div class="session-progress">
+                <span id="progressText">Wort 1 von 5</span>
+            </div>
+            
+            <div class="card-container">
+                <div id="wordCard" class="card" onclick="app.flipCard()">
+                    <div class="card-front">
+                        <div class="word-display" id="wordDisplay">Haus</div>
+                    </div>
+                    <div class="card-back">
+                        <div class="info-box">
+                            <h3>Info für Eltern</h3>
+                            <ul class="checklist">
+                                <li id="wordType">Groß oder klein? Substantiv</li>
+                                <li>Buchstabiere das Wort</li>
+                                <li>Ablenkungsfrage: (z.B. <span id="distractionQuestion">Welche Farbe haben deine Socken?</span>)</li>
+                                <li>Buchstabiere das Wort nochmal</li>
+                                <li id="optionalStep">Bist du sicher?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-success" onclick="app.nextWord()">Nächstes Wort</button>
+                <button id="repeatWordButton" class="btn btn-warning" onclick="app.repeatWord()">Beim nächsten Mal nochmal anzeigen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Session Ende -->
+    <div id="endScreen" class="screen">
+        <div class="container">
+            <h1>Session fertig! 🎉</h1>
+            <div id="confetti"></div>
+            <button class="btn btn-primary" onclick="app.newSession()">Neue Session starten</button>
+            <button class="btn btn-secondary" onclick="app.showStartScreen()">Zur Startseite</button>
+        </div>
+    </div>
+
+    <!-- Share Link Modal -->
+    <div id="shareModal" class="modal">
+        <div class="modal-content">
+            <h2>Auf anderem Gerät weitermachen</h2>
+            <p>Kopiere diesen Link und öffne ihn auf einem anderen Gerät:</p>
+            <div class="link-container">
+                <input type="text" id="shareLinkInput" readonly>
+                <button class="btn btn-primary" onclick="app.copyLink()">Kopieren</button>
+            </div>
+            <button class="btn btn-secondary" onclick="app.closeShareModal()">Schließen</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
