@@ -40,7 +40,6 @@ const REPEAT_BUTTON_TEXT_MARKED = 'Beim nächsten Mal wiederholen ✅';
 const app = {
     currentGrade: 1,
     sessionSize: 5,
-    currentSession: [],
     currentWordIndex: 0,
     repeatWords: new Set(),
     sessionWords: [],
@@ -56,18 +55,23 @@ const app = {
     
     setupEventListeners() {
         // Settings
-        document.getElementById('gradeSelect').addEventListener('change', (e) => {
-            this.currentGrade = parseInt(e.target.value);
-        });
+        const gradeSelect = document.getElementById('gradeSelect');
+        if (gradeSelect) {
+            gradeSelect.addEventListener('change', (e) => {
+                this.currentGrade = parseInt(e.target.value);
+            });
+        }
         
         const sessionSizeSelect = document.getElementById('sessionSizeSelect');
         const sessionSizeValue = document.getElementById('sessionSizeValue');
         
-        sessionSizeSelect.addEventListener('input', (e) => {
-            const value = parseInt(e.target.value);
-            this.sessionSize = value;
-            sessionSizeValue.textContent = value;
-        });
+        if (sessionSizeSelect && sessionSizeValue) {
+            sessionSizeSelect.addEventListener('input', (e) => {
+                const value = parseInt(e.target.value);
+                this.sessionSize = value;
+                sessionSizeValue.textContent = value;
+            });
+        }
     },
     
     loadSettings() {
@@ -78,9 +82,13 @@ const app = {
                 this.currentGrade = settings.grade || 1;
                 this.sessionSize = settings.sessionSize || 5;
                 
-                document.getElementById('gradeSelect').value = this.currentGrade;
-                document.getElementById('sessionSizeSelect').value = this.sessionSize;
-                document.getElementById('sessionSizeValue').textContent = this.sessionSize;
+                const gradeSelect = document.getElementById('gradeSelect');
+                const sessionSizeSelect = document.getElementById('sessionSizeSelect');
+                const sessionSizeValue = document.getElementById('sessionSizeValue');
+                
+                if (gradeSelect) gradeSelect.value = this.currentGrade;
+                if (sessionSizeSelect) sessionSizeSelect.value = this.sessionSize;
+                if (sessionSizeValue) sessionSizeValue.textContent = this.sessionSize;
             } catch (e) {
                 console.error('Error loading settings', e);
             }
@@ -141,12 +149,18 @@ const app = {
     
     showStartScreen() {
         this.hideAllScreens();
-        document.getElementById('startScreen').classList.add('active');
+        const startScreen = document.getElementById('startScreen');
+        if (startScreen) {
+            startScreen.classList.add('active');
+        }
     },
     
     showSettings() {
         this.hideAllScreens();
-        document.getElementById('settingsScreen').classList.add('active');
+        const settingsScreen = document.getElementById('settingsScreen');
+        if (settingsScreen) {
+            settingsScreen.classList.add('active');
+        }
     },
     
     hideAllScreens() {
@@ -159,44 +173,11 @@ const app = {
         this.createSession();
         this.currentWordIndex = 0;
         this.hideAllScreens();
-        document.getElementById('wordScreen').classList.add('active');
+        const wordScreen = document.getElementById('wordScreen');
+        if (wordScreen) {
+            wordScreen.classList.add('active');
+        }
         this.showWord();
-        // Hinweis nach dem Anzeigen des Wortes prüfen
-        setTimeout(() => {
-            this.checkFirstTimeHint();
-        }, 100);
-    },
-    
-    checkFirstTimeHint() {
-        const hintElement = document.getElementById('firstTimeHint');
-        
-        if (!hintElement) {
-            return;
-        }
-        
-        // Hinweis immer beim ersten Wort anzeigen
-        setTimeout(() => {
-            const element = document.getElementById('firstTimeHint');
-            if (element) {
-                element.classList.remove('hidden');
-                element.classList.add('show');
-                element.style.display = 'block';
-                element.style.opacity = '1';
-                element.style.pointerEvents = 'auto';
-                element.style.visibility = 'visible';
-            }
-        }, 800);
-    },
-    
-    hideFirstTimeHint() {
-        const hintElement = document.getElementById('firstTimeHint');
-        if (hintElement) {
-            hintElement.classList.add('hidden');
-            hintElement.classList.remove('show');
-            hintElement.style.display = 'none';
-            hintElement.style.opacity = '0';
-            hintElement.style.pointerEvents = 'none';
-        }
     },
     
     createSession() {
@@ -247,23 +228,20 @@ const app = {
         }
         
         const word = this.sessionWords[this.currentWordIndex];
-        document.getElementById('wordDisplay').textContent = word;
-        document.getElementById('progressText').textContent = 
-            `Wort ${this.currentWordIndex + 1} von ${this.sessionWords.length}`;
+        const wordDisplay = document.getElementById('wordDisplay');
+        const progressText = document.getElementById('progressText');
+        
+        if (wordDisplay) {
+            wordDisplay.textContent = word;
+        }
+        if (progressText) {
+            progressText.textContent = `Wort ${this.currentWordIndex + 1} von ${this.sessionWords.length}`;
+        }
         
         // Karte zurücksetzen
         const card = document.getElementById('wordCard');
-        card.classList.remove('flipped');
-        
-        // Hinweis nur anzeigen, wenn es das erste Wort ist
-        if (this.currentWordIndex === 0) {
-            // Kurze Verzögerung, damit die Karte vollständig gerendert ist
-            setTimeout(() => {
-                this.checkFirstTimeHint();
-            }, 800);
-        } else {
-            // Bei anderen Wörtern den Hinweis sicher ausblenden
-            this.hideFirstTimeHint();
+        if (card) {
+            card.classList.remove('flipped');
         }
         
         // Prüfen ob Wort bereits markiert ist: Entweder in repeatWords oder in sessionRepeatWords (Übungsrunde)
@@ -287,32 +265,29 @@ const app = {
         // Worttyp bestimmen
         const isCapitalized = word[0] === word[0].toUpperCase();
         const wordType = isCapitalized ? 'Substantiv' : 'Verb/Adjektiv';
-        document.getElementById('wordType').textContent = 
-            `Groß oder klein? ${isCapitalized ? 'Groß' : 'Klein'} (${wordType})`;
+        const wordTypeElement = document.getElementById('wordType');
+        if (wordTypeElement) {
+            wordTypeElement.textContent = 
+                `Groß oder klein? ${isCapitalized ? 'Groß' : 'Klein'} (${wordType})`;
+        }
         
         // Ablenkungsfrage
         const randomQuestion = DISTRACTION_QUESTIONS[
             Math.floor(Math.random() * DISTRACTION_QUESTIONS.length)
         ];
-        document.getElementById('distractionQuestion').textContent = randomQuestion;
+        const distractionQuestion = document.getElementById('distractionQuestion');
+        if (distractionQuestion) {
+            distractionQuestion.textContent = randomQuestion;
+        }
         
         // "Bist du sicher?" wird immer angezeigt
     },
     
     flipCard() {
         const card = document.getElementById('wordCard');
-        card.classList.toggle('flipped');
-        
-        // Hinweis beim Tippen ausblenden (nur wenn sichtbar)
-        const hintElement = document.getElementById('firstTimeHint');
-        if (hintElement && hintElement.classList.contains('show')) {
-            this.hideFirstTimeHint();
+        if (card) {
+            card.classList.toggle('flipped');
         }
-    },
-    
-    toggleRepeat() {
-        // Diese Funktion wird nicht mehr verwendet, da die Checkbox entfernt wurde
-        // Die Funktionalität ist jetzt nur noch über den Button verfügbar
     },
     
     nextWord() {
@@ -323,7 +298,9 @@ const app = {
     repeatWord() {
         // Karte zurücksetzen und Wort erneut anzeigen
         const card = document.getElementById('wordCard');
-        card.classList.remove('flipped');
+        if (card) {
+            card.classList.remove('flipped');
+        }
         
         const word = this.sessionWords[this.currentWordIndex];
         const repeatButton = document.getElementById('repeatWordButton');
@@ -356,12 +333,19 @@ const app = {
     
     endSession() {
         this.hideAllScreens();
-        document.getElementById('endScreen').classList.add('active');
+        const endScreen = document.getElementById('endScreen');
+        if (endScreen) {
+            endScreen.classList.add('active');
+        }
         this.showConfetti();
     },
     
     showConfetti() {
         const confettiContainer = document.getElementById('confetti');
+        if (!confettiContainer) {
+            return;
+        }
+        
         const colors = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8'];
         const confettiCount = 100;
         
@@ -411,8 +395,15 @@ const app = {
             const encoded = btoa(encodeURIComponent(JSON.stringify(state)));
             const shareUrl = `${window.location.origin}${window.location.pathname}#${encoded}`;
             
-            document.getElementById('shareLinkInput').value = shareUrl;
-            document.getElementById('shareModal').classList.add('active');
+            const shareLinkInput = document.getElementById('shareLinkInput');
+            const shareModal = document.getElementById('shareModal');
+            
+            if (shareLinkInput) {
+                shareLinkInput.value = shareUrl;
+            }
+            if (shareModal) {
+                shareModal.classList.add('active');
+            }
         } catch (e) {
             console.error('Error creating share link', e);
             alert('Fehler beim Erstellen des Links');
@@ -421,6 +412,10 @@ const app = {
     
     copyLink() {
         const input = document.getElementById('shareLinkInput');
+        if (!input) {
+            return;
+        }
+        
         input.select();
         input.setSelectionRange(0, 99999);
         
@@ -445,7 +440,10 @@ const app = {
     },
     
     closeShareModal() {
-        document.getElementById('shareModal').classList.remove('active');
+        const shareModal = document.getElementById('shareModal');
+        if (shareModal) {
+            shareModal.classList.remove('active');
+        }
     }
 };
 
