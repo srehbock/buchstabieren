@@ -244,6 +244,9 @@ const app = {
             card.classList.remove('flipped');
         }
         
+        // Infobox nur beim ersten Wort anzeigen
+        this.updateCardHint();
+        
         // Prüfen ob Wort bereits markiert ist: Entweder in repeatWords oder in sessionRepeatWords (Übungsrunde)
         const isMarked = this.repeatWords.has(word) || this.sessionRepeatWords.has(word);
         
@@ -259,6 +262,17 @@ const app = {
         
         // Info-Box aktualisieren
         this.updateInfoBox(word);
+    },
+    
+    updateCardHint() {
+        const cardHint = document.querySelector('.card-hint');
+        if (cardHint) {
+            if (this.currentWordIndex === 0) {
+                cardHint.classList.add('show');
+            } else {
+                cardHint.classList.remove('show');
+            }
+        }
     },
     
     updateInfoBox(word) {
@@ -280,7 +294,6 @@ const app = {
             distractionQuestion.textContent = randomQuestion;
         }
         
-        // "Bist du sicher?" wird immer angezeigt
     },
     
     flipCard() {

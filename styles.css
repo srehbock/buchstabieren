@@ -252,7 +252,7 @@ h3 {
     position: relative;
 }
 
-.first-time-hint {
+.card-hint {
     position: absolute;
     top: 12px;
     left: 12px;
@@ -263,25 +263,14 @@ h3 {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     z-index: 1000;
-    opacity: 1;
-    pointer-events: auto;
-    transition: opacity 0.3s ease-in-out;
     white-space: nowrap;
     max-width: calc(100% - 24px);
     font-weight: 500;
+    display: none;
+}
+
+.card-hint.show {
     display: block;
-}
-
-.first-time-hint.hidden {
-    opacity: 0 !important;
-    pointer-events: none;
-    display: none !important;
-}
-
-.first-time-hint.show {
-    opacity: 1 !important;
-    pointer-events: auto;
-    display: block !important;
 }
 
 .card-back {
