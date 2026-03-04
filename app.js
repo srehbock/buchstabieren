@@ -44,7 +44,7 @@ const app = {
     currentWordIndex: 0,
     repeatWords: new Set(),
     sessionWords: [],
-    sessionRepeatWords: new Set(), // Wiederhol-Wörter in der aktuellen Session
+    sessionRepeatWords: new Set(), // Wiederhol-Wörter in der aktuellen Übungsrunde
     
     init() {
         this.loadSettings();
@@ -172,7 +172,7 @@ const app = {
             words.includes(word)
         );
         
-        // Session-Wiederhol-Wörter speichern
+        // Übungsrunden-Wiederhol-Wörter speichern
         this.sessionRepeatWords = new Set();
         
         const repeatCount = Math.min(gradeRepeatWords.length, this.sessionSize);
@@ -219,7 +219,7 @@ const app = {
         const card = document.getElementById('wordCard');
         card.classList.remove('flipped');
         
-        // Prüfen ob Wort bereits markiert ist: Entweder in repeatWords oder in sessionRepeatWords
+        // Prüfen ob Wort bereits markiert ist: Entweder in repeatWords oder in sessionRepeatWords (Übungsrunde)
         const isMarked = this.repeatWords.has(word) || this.sessionRepeatWords.has(word);
         
         // Button-Text setzen: Wenn Wort bereits markiert ist, mit ✅ anzeigen

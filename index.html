@@ -44,7 +44,7 @@
             </div>
             <div class="settings-group">
                 <label>
-                    <span>Sessiongröße: <span id="sessionSizeValue">5</span> Wörter</span>
+                    <span>Übungsrundengröße: <span id="sessionSizeValue">5</span><span> Wörter</span></span>
                     <input type="range" id="sessionSizeSelect" min="4" max="10" value="5" step="1">
                 </label>
             </div>
@@ -61,7 +61,7 @@
     <!-- Hauptscreen: Wortkarte -->
     <div id="wordScreen" class="screen">
         <div class="container">
-            <div class="session-progress">
+            <div class="uebungsrunde-progress">
                 <span id="progressText">Wort 1 von 5</span>
             </div>
             
@@ -92,12 +92,12 @@
         </div>
     </div>
 
-    <!-- Session Ende -->
+    <!-- Übungsrunde Ende -->
     <div id="endScreen" class="screen">
         <div class="container">
-            <h1>Session fertig! 🎉</h1>
+            <h1>Übungsrunde fertig! 🎉</h1>
             <div id="confetti"></div>
-            <button class="btn btn-primary" onclick="app.newSession()">Neue Session starten</button>
+            <button class="btn btn-primary" onclick="app.newSession()">Neue Übungsrunde starten</button>
             <button class="btn btn-secondary" onclick="app.showStartScreen()">Zur Startseite</button>
         </div>
     </div>
