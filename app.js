@@ -33,7 +33,7 @@ const DISTRACTION_QUESTIONS = [
 ];
 
 // Button-Texte für Wiederhol-Funktion
-const REPEAT_BUTTON_TEXT = 'Beim nächsten Mal wiederholen';
+const REPEAT_BUTTON_TEXT = 'HBeim nächsten Mal wiederholen';
 const REPEAT_BUTTON_TEXT_MARKED = 'Beim nächsten Mal wiederholen ✅';
 
 // App State
